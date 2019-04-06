@@ -21,3 +21,5 @@ def clear_text(str, debug = 0):
     for word in words:
         str += word
     return words
+
+print(clear_text("Some tes test text with emm emm some some repeat repeated words"))
