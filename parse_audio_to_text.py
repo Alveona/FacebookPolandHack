@@ -4,6 +4,7 @@ import io
 
 
 def extract_text(speech_file):
+    print(speech_file)
     credentials = service_account.Credentials.from_service_account_file('My First Project-837cb436b57d.json')
     client = speech.SpeechClient(credentials=credentials)
     with io.open(speech_file, 'rb') as audio_file:
@@ -11,12 +12,12 @@ def extract_text(speech_file):
     audio = speech.types.RecognitionAudio(content=content)
     config = speech.types.RecognitionConfig(
         encoding=speech.enums.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=8000,
+        #sample_rate_hertz=8000,
         language_code='en-US',
         enable_word_time_offsets=True,
         enable_automatic_punctuation=True)
-
     response = client.recognize(config, audio)
+    print(response)
     sentences_with_timemarks = []
     for i, result in enumerate(response.results):
         alternative = result.alternatives[0]
