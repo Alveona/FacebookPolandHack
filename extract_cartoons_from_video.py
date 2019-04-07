@@ -2,6 +2,42 @@ import cv2
 import os 
 import math
 import numpy as np 
+import textwrap
+
+def stampText(image, text, tmp, line):
+    text = textwrap.wrap(text, width=20)
+    #print(text)
+    x1,y1,x2,y2 = tmp
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 2
+    margin = 5
+    thickness = 5
+    color = (0, 0, 0)
+    amount_string = len(text)
+    max_string_len = max(len(s) for s in text)
+    longest_strings = [s for s in text if len(s) == max_string_len]
+    #print(longest_strings)
+    size = cv2.getTextSize(longest_strings[0], font, font_scale, thickness)
+    #print(size)
+    text_width = size[0][0]
+    text_height = size[0][1]
+    line_height = text_height + size[1] + margin
+
+    x_text = math.floor((x1+x2)/2 - margin - text_width/2)
+    y_text = math.floor(margin + y2 + 0.6*text_height*amount_string)
+    
+    x_ellipse = math.floor((x1+x2)/2)
+    y_ellipse = math.floor(y2 + 1.1*text_height*amount_string/2)
+    
+    #little
+    #cv2.ellipse(image, (x_ellipse, y2+20), (100, 30), 0, 0, 360, (255,255,255), thickness=-1, lineType=8) 
+
+    #big
+    cv2.ellipse(image, (x_ellipse, y_ellipse), (text_width, text_height*amount_string), 0, 0, 360, (255,255,255), thickness=-1, lineType=8) 
+    
+    for t in text:
+        cv2.putText(image, t, (x_text, y_text), font, font_scale, color, thickness)
+        y_text += text_height + 5
 
 def cartoonize_image(img, ksize=5, sketch_mode=False):
     num_repetitions, sigma_color, sigma_space, ds_factor = 10, 5, 7, 4 
