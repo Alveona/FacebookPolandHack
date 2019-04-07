@@ -70,7 +70,7 @@ def cartoonize_image(img, ksize=5, sketch_mode=False):
     dst = cv2.bitwise_and(img_output, img_output, mask=mask) 
     return dst
 
-def get_images_from_given_seconds(video_path, time, output_path):
+def get_images_from_given_seconds(video_path, time, sentences, output_path):
     cam = cv2.VideoCapture(video_path)
     fps = math.floor(cam.get(cv2.CAP_PROP_FPS))
     print(fps)
@@ -84,7 +84,22 @@ def get_images_from_given_seconds(video_path, time, output_path):
             current = math.floor(currentframe/fps)
             if (current in time):
                 name = output_path + str(index) + 'time' + str(current) + '.jpg'
-                print ('Creating...' + name) 
+                print ('Creating...' + name)
+                
+                #face recognition
+                faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+                faces = faceCascade.detectMultiScale(frame, scaleFactor=1.1, minNeighbors=5,
+                                        minSize=(30, 30))
+                #faces coordinats
+                for face in faces:
+                    x1, y1, w, h = face
+                    x2 = x1 + w
+                    y2 = y1 + h
+                    tmp = (x1,y1,x2,y2)
+                    
+                    #add text
+                    stampText(frame, sentences[time.index(current)], tmp, 1)
+                    
                 cv2.imwrite(name, cartoonize_image(frame, ksize=5, sketch_mode=False))
                 time.remove(current)
                 index+=1
