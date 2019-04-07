@@ -4,33 +4,47 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Ajax upload form</title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-
+<div class="container">
+<div class="center-block text-center" style="margin: 100px" 
 	<!--
   By default, we assume Ajax uploads are not supported.
   Later we'll detect support and change this message if found.
 -->
-	<p id="support-notice">Your browser does not support Ajax uploads :-(<br />The form will be submitted as normal.</p>
+	<!-- <p id="support-notice">Your browser does not support Ajax uploads :-(<br />The form will be submitted as normal.</p> -->
 
 	<!-- The form starts -->
+	<label class="btn btn-primary" for="file-id" style="margin: 100px; height: 50px>
+		<input id="file-id" type="file" style="display:none;">
+			Choose your file
+		</label>
 	<form action="/" method="post" enctype="multipart/form-data" id="form-id">
 
 		<!-- The file to upload -->
-		<p><input id="file-id" type="file" name="our-file" />
+		<p>
+		<!-- <input id="file-id" type="file" class="form-control-file" name="our-file" /> -->
 
 			<!--
     Also by default, we disable the upload button.
     If Ajax uploads are supported we'll enable it.
   -->
-			<input type="button" value="Upload" id="upload-button-id" disabled="disabled" /></p>
+			<input type="button" class="btn btn-info" value="Upload" id="upload-button-id" disabled="disabled" /></p>
 
 		<!-- A different field, just for the sake of the example -->
-		<p><label>Some other field: <input name="other-field" type="text" id="other-field-id" /></label></p>
+		<!-- <p><label>Some other field: <input name="other-field" type="text" id="other-field-id" /></label></p> -->
 
 		<!-- And finally a submit button -->
-		<p><input type="submit" value="Submit" /></p>
+		<!-- <p><input type="submit"  type="button" class="btn btn-info" value="Submit" /></p> -->
 
 		<script>
 			// Function that will allow us to know if Ajax uploads are supported
@@ -63,7 +77,7 @@
 				// Change the support message and enable the upload button
 				var notice = document.getElementById('support-notice');
 				var uploadBtn = document.getElementById('upload-button-id');
-				notice.innerHTML = "Your browser supports HTML uploads. Go try me! :-)";
+				//notice.innerHTML = "Your browser supports HTML uploads. Go try me! :-)";
 				uploadBtn.removeAttribute('disabled');
 
 				// Init the Ajax form submission
@@ -96,7 +110,7 @@
 					var formData = new FormData();
 
 					// Since this is the file only, we send it to a specific location
-					var action = 'http://127.0.0.1:8000/api/video/';
+					var action = 'http://192.168.100.120:8000/api/video/';
 
 					// FormData only has the file
 					var fileInput = document.getElementById('file-id');
@@ -172,9 +186,11 @@
 		<!-- Placeholders for messages set by event handlers -->
 		<p id="upload-status"></p>
 		<p id="progress"></p>
-		<pre id="result"></pre>
+		<!-- <pre id="result"></pre> -->
 
 	</form>
+	</div>
+</div>
 </body>
 
 </html>
